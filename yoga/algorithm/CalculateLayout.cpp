@@ -1083,9 +1083,14 @@ static void justifyMainAxis(
 
     if (performLayout) {
       child->setLayoutPosition(
-          childLayout.position(flexStartEdge(mainAxis)) +
-              flexLine.layout.mainDim,
-          flexStartEdge(mainAxis));
+        childLayout.position(flexStartEdge(mainAxis)) + flexLine.layout.mainDim, flexStartEdge(mainAxis));
+
+      if (mainAxis == FlexDirection::Row) {
+        float topOffset = node->getLayout().position(PhysicalEdge::Top);
+
+        child->setLayoutPosition(
+          childLayout.position(flexStartEdge(crossAxis)) + topOffset, flexStartEdge(crossAxis));
+      }
     }
 
     if (child != flexLine.itemsInFlow.back()) {
